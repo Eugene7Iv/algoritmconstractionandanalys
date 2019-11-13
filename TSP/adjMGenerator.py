@@ -10,7 +10,7 @@ for i in range(n):
     adjM.append([])
     for j in range(n):
         if (j > i):
-            adjM[i].append(random.randint(0,100))
+            adjM[i].append(random.randint(1,100))
         elif (j < i):
             adjM[i].append(adjM[j][i])
         elif (j == i):
@@ -23,7 +23,7 @@ for i in range(n):
 
 time = dt.strftime(dt.now(), "%Y_%m_%d_%H_%M_%S")
 
-testFile = open("test_" + time + '.txt', 'w')
+testFile = open("test" + str(n) + "_" + time + '.txt', 'w')
 
 for i in range(n):
     for j in range(n):
