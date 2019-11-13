@@ -170,12 +170,13 @@ while True:
         tau[vNodes[i]][vNodes[i+1]] = (1-ro)*tau[vNodes[i]][vNodes[i+1]] + dT
         tau[vNodes[i+1]][vNodes[i]] = (1-ro)*tau[vNodes[i+1]][vNodes[i]] + dT
 
-    if (prevMinL == minL):
-        count += 1
-    else:
-        count = 0
+    
 
     if (totalIteration > minNumberTreveling):
+        if (prevMinL == minL):
+            count += 1
+        else:
+            count = 0
         if ((count == numberSameWalkedDistance) or (totalIteration == maxNumberTreveling)):
             break
 print("Ant algorithm")
