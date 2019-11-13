@@ -33,7 +33,7 @@ def start(outNode : int , vNode = []):
     if len(visitedNode) == nodeCount:
         visitedNode.append(startNode)
         L = calcDistance(visitedNode)
- #       print(L , visitedNode)
+        print(L , visitedNode)
         return L , visitedNode
 
     res = minL , vNodesTemp
