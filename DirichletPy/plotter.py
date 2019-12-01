@@ -6,36 +6,32 @@ import numpy as np
 from matplotlib import cm
 
 
-def plotSurface(U_, h = 0.1):
+def plotSurface(X, Y, U):
     fig = plt.figure()
     ax = fig.gca(projection='3d')
 
     # Make data.
-    X = np.arange(0, 1, h)
     xlen = len(X)
-    Y = np.arange(0, 1, h)
     ylen = len(Y)
-    X, Y = np.meshgrid(X, Y)
-    U = np.array(U_)
+    zMax = np.amax(U)
+    zMin = np.amin(U)
 
+    X, Y = np.meshgrid(X, Y)
     # Plot the surface
     surf = ax.plot_surface(X, Y, U)
 
     # Customize the z axis.
-    ax.set_zlim(0, 1)
+    ax.set_zlim(zMin, zMax)
     ax.w_zaxis.set_major_locator(LinearLocator(6))
 
     plt.show()
 
-def plotContour(U_, h = 0.1):
+def plotContour(X, Y, U):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
-    X = np.arange(0, 1, h)
     xlen = len(X)
-    Y = np.arange(0, 1, h)
     ylen = len(Y)
     X, Y = np.meshgrid(X, Y)
-    U = np.array(U_)
     cset = ax.contour(X, Y, U, cmap=cm.coolwarm)
     ax.clabel(cset, fontsize=9, inline=1)
 

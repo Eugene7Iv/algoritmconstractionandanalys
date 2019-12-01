@@ -1,7 +1,7 @@
 from math import pi, sinh, sin, sqrt
+import numpy as np
 
-def solDirichlet(n_ = 10, iterCount_ = 100, writeToFile = False):
-    n = n_
+def solDirichlet(n, iterCount_ = 1000):
     iterCount = iterCount_
 
     U = []
@@ -20,53 +20,36 @@ def solDirichlet(n_ = 10, iterCount_ = 100, writeToFile = False):
         for i in range(1, n - 1):
             for j in range(1 , n - 1):
                 U[i][j] = 0.25*(U[i + 1][j] + U[i - 1][j] + U[i][j + 1] + U[i][j - 1])
-
-    if(writeToFile):
-        solFile = open('solFile.txt' , 'w')
-
-        for i in range(0, n):
-            for j in range(0 , n):
-                solFile.write('%4f' % U[i][j] + '\t')
-            solFile.write('\n')
-        
-        solFile.close
         
     return U
 
-def getDirichlet(n_, t_, h):
+def getDirichlet(X, Y):
     supC = lambda n: 2 * (1 - (-1)^n) / (pi * n * sinh(pi * n))
-    func = lambda x, y, n: supC(n) * sinh(pi * n * x) * sin(pi * n *y)
+    func = lambda x, y, n: supC(n) * sinh(pi*n*x) * sin(pi*n*y)
+    supCC = lambda n: 4 / (pi * n * sinh(pi * n))
+    funcc = lambda x, y, n: supCC(2*n-1) * sinh(pi*(2*n-1)*x) * sin(pi*(2*n-1)*y)
 
-
-    ч = np.arange(0, 1, h)
-    xlen = len(X)
-    н = np.arange(0, 1, h)
-    ylen = len(Y)
-    x = []
-    y = []
-    h = 1 / (n_)
-
-    for i in range(0, n_+1):
-        x.append(i * h)
-        y.append(i * h)
-    print(x , '\n' , y)
     U = []
 
-    for i in range(0, n_+1):
+    n = len(X)
+
+    for i in range(0, n):
         U.append([])
-        for j in range(0, n_+1):
-            u = __sum(func, x[i], y[j], t_) + __sum(func, y[j], x[i], t_)
+        for j in range(0, n):
+            u = sum(funcc, X[i], Y[j]) + sum(funcc, Y[j], X[i])
             U[i].append(u)
 
     return U
 
-def __sum(function, x_, y_, k):
+def sum(function, x, y):
     func = function
     sum = 0
     t = 1
 
-    while(t <= k):
-        sum += func(x_, y_, t)
+    while(True):
+        s = func(x, y, t)
+        sum += s
         t += 1
+        if (s == 0):
+            return sum  
     
-    return sum
