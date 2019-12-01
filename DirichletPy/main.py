@@ -1,6 +1,5 @@
 import numpy as np
 import dirichlet
-import intdif
 import plotter
 
 def writeToFile(U, sfile):
