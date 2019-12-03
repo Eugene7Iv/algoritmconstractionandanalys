@@ -19,8 +19,9 @@ Y = np.arange(0, 1+h, h)
 U = np.array(dirichlet.solDirichlet(len(X)))
 G = np.array(dirichlet.getDirichlet(X, Y))
 
-plotter.plotSurface(X, Y, U)
-plotter.plotContour(X, Y, U)
+print('error = ', dirichlet.error(U,G))
 
-plotter.plotSurface(X, Y, G)
-plotter.plotContour(X, Y, G)
+plotter.plotSurface(X, Y, U, 'Numerical Solution')
+plotter.plotSurface(X, Y, G, 'Analitical Sulution')
+plotter.plotContour(X, Y, U, 'Numerical Solution')
+plotter.plotContour(X, Y, G, 'Analitical Sulution')

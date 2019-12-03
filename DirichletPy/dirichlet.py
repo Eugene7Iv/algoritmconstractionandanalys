@@ -34,10 +34,15 @@ def getDirichlet(X, Y):
     n = len(X)
 
     for i in range(0, n):
-        U.append([])
-        for j in range(0, n):
-            u = sum(funcc, X[i], Y[j]) + sum(funcc, Y[j], X[i])
-            U[i].append(u)
+            U.append([])
+            for j in range(0 , n):
+                if (i == 0 or j == 0):
+                    U[i].append(0)
+                elif (i == n - 1 or j ==  n- 1):
+                    U[i].append(1)
+                else:
+                    u = sum(funcc, X[i], Y[j]) + sum(funcc, Y[j], X[i])
+                    U[i].append(u)
 
     return U
 
@@ -51,5 +56,17 @@ def sum(function, x, y):
         sum += s
         t += 1
         if (s == 0):
-            return sum  
+            return sum
+
+def error(U, G):
+    n = len(U)
+    eMax = 0.0
+    for i in range(n):
+        for j in range(n):
+            e = abs(U[i][j]-G[i][j])
+            if e > eMax:
+                eMax = e
+            #print(e)
+
+    return eMax
     

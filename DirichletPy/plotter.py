@@ -6,8 +6,8 @@ import numpy as np
 from matplotlib import cm
 
 
-def plotSurface(X, Y, U):
-    fig = plt.figure()
+def plotSurface(X, Y, U, title):
+    fig = plt.figure('Surface ' + title)
     ax = fig.gca(projection='3d')
 
     # Make data.
@@ -18,7 +18,7 @@ def plotSurface(X, Y, U):
 
     X, Y = np.meshgrid(X, Y)
     # Plot the surface
-    surf = ax.plot_surface(X, Y, U)
+    surf = ax.plot_surface(X, Y, U,cmap=cm.coolwarm)
 
     # Customize the z axis.
     ax.set_zlim(zMin, zMax)
@@ -26,11 +26,13 @@ def plotSurface(X, Y, U):
 
     plt.show()
 
-def plotContour(X, Y, U):
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
+def plotContour(X, Y, U, title):
     xlen = len(X)
     ylen = len(Y)
+
+    fig = plt.figure('Contour ' + title)
+    ax = fig.add_subplot(111)
+    
     X, Y = np.meshgrid(X, Y)
     cset = ax.contour(X, Y, U, cmap=cm.coolwarm)
     ax.clabel(cset, fontsize=9, inline=1)
