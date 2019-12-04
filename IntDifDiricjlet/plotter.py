@@ -37,7 +37,7 @@ def plotContour(X, Y, U, title = ""):
 
     plt.show()
 
-def foo(X, Y, U):
+def plotPcolor(X, Y, U):
     plt.pcolor(X, Y, U, cmap=cm.coolwarm)
     plt.colorbar()
     plt.show()
