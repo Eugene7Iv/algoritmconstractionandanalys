@@ -12,4 +12,4 @@ I = np.array(intDir.integr(len(X)))
 
 plotter.plotSurface(X, Y, I)
 plotter.plotContour(X, Y, I)
-plotter.foo(X, Y, I)
+plotter.plotPcolor(X, Y, I)
