@@ -16,10 +16,10 @@ for i in range(n):
         elif (j == i):
             adjM[i].append(0)
 
-for i in range(n):
-    for j in range(n):
-        print(adjM[i][j], end = '\t')
-    print('\n')
+#for i in range(n):
+#    for j in range(n):
+#        print(adjM[i][j], end = '\t')
+#    print('\n')
 
 time = dt.strftime(dt.now(), "%Y_%m_%d_%H_%M_%S")
 
