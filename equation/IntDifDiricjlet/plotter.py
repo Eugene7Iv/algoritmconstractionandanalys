@@ -6,7 +6,7 @@ import numpy as np
 from matplotlib import cm
 
 
-def plotSurface(X, Y, U, title = ""):
+def plotSurface(X, Y, U, title):
     fig = plt.figure('Surface ' + title)
     ax = fig.gca(projection='3d')
 
@@ -26,18 +26,15 @@ def plotSurface(X, Y, U, title = ""):
 
     plt.show()
 
-def plotContour(X, Y, U, n, title = ""):
+def plotContour(X, Y, U, n = 10, title = ""):
     xlen = len(X)
     ylen = len(Y)
 
     fig = plt.figure('Contour ' + title)
+    ax = fig.add_subplot(111)
     
     X, Y = np.meshgrid(X, Y)
-    cset = plt.contour(X, Y, U, n, cmap=cm.coolwarm)
+    cset = ax.contour(X, Y, U, n, cmap=cm.coolwarm)
+    ax.clabel(cset, fontsize=9, inline=1)
 
-    plt.show()
-
-def plotPcolor(X, Y, U):
-    plt.pcolor(X, Y, U, cmap=cm.coolwarm)
-    plt.colorbar()
     plt.show()

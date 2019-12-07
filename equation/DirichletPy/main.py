@@ -1,6 +1,6 @@
 import numpy as np
 import dirichlet
-import plotter
+import equation.plotter
 
 def writeToFile(U, sfile):
     n = len(U)

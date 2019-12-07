@@ -26,7 +26,7 @@ def plotSurface(X, Y, U, title):
 
     plt.show()
 
-def plotContour(X, Y, U, title):
+def plotContour(X, Y, U, n = 10, title = ""):
     xlen = len(X)
     ylen = len(Y)
 
@@ -34,7 +34,7 @@ def plotContour(X, Y, U, title):
     ax = fig.add_subplot(111)
     
     X, Y = np.meshgrid(X, Y)
-    cset = ax.contour(X, Y, U, cmap=cm.coolwarm)
+    cset = ax.contour(X, Y, U, n, cmap=cm.coolwarm)
     ax.clabel(cset, fontsize=9, inline=1)
 
     plt.show()
