@@ -1,4 +1,6 @@
 import random
+from config import *
+
 
 class Ant:
     __count = -1
@@ -14,7 +16,7 @@ class Ant:
         self.__brain.updateWalkedDistance()
         return nextNode
 
-    def traveling(self, param = ""):
+    def traveling(self):
         startNode = self.__brain.getStartNode()
         node = self.step(startNode)
         while(node != startNode):
@@ -24,10 +26,7 @@ class Ant:
         distance = self.__brain.getWalkedDistance()
         self.dropPheromone(visitedNodes, distance)
 
-        if param != "Exploring":
-            print("indx : ",self.__indx, ' nodes : ', visitedNodes , ' dist :  ', distance)
-
-    def takeStartedPlace(self,node):
+    def takeStartedNode(self,node):
         self.__brain.setStartNode(node)
         self.__brain.keepNode(node)
 
@@ -51,6 +50,12 @@ class Ant:
 
     def getStartNode(self):
         return self.__brain.getStartNode()
+
+    def getWalkedDistance(self):
+        return self.__brain.getWalkedDistance()
+
+    def getWay(self):
+        return self.__brain.getMind()
         
 
 class AntBrain:
