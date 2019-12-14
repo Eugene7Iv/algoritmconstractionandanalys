@@ -1,6 +1,6 @@
 import numpy as np
 import dirichlet
-import equation.plotter
+import plotter
 
 def writeToFile(U, sfile):
     n = len(U)
@@ -23,5 +23,5 @@ print('error = ', dirichlet.error(U,G))
 
 plotter.plotSurface(X, Y, U, 'Numerical Solution')
 plotter.plotSurface(X, Y, G, 'Analitical Sulution')
-plotter.plotContour(X, Y, U, 'Numerical Solution')
-plotter.plotContour(X, Y, G, 'Analitical Sulution')
+plotter.plotContour(X, Y, U, n = 15, title = 'Numerical Solution')
+plotter.plotContour(X, Y, G, n = 15, title = 'Analitical Sulution')
