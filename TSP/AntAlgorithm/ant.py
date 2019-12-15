@@ -1,5 +1,6 @@
 import random
 from config import *
+import time
 
 
 class Ant:
@@ -11,12 +12,19 @@ class Ant:
         self.__indx = Ant.__count
 
     def step(self, startNode):
+        tick = time.time()
         nextNode = self.__brain.chooseWay(startNode)
         self.__brain.keepNode(nextNode)
         self.__brain.updateWalkedDistance()
+
+        if  NEED_PRINT_TIME_FOR_STEP:
+            print("----TIME FOR step(startNode) : ", time.time() - tick, " ----")
+
         return nextNode
 
-    def traveling(self):
+    def travel(self):
+        tick = time.time()
+
         startNode = self.__brain.getStartNode()
         node = self.step(startNode)
         while(node != startNode):
@@ -26,11 +34,15 @@ class Ant:
         distance = self.__brain.getWalkedDistance()
         self.dropPheromone(visitedNodes, distance)
 
+        if  NEED_PRINT_TIME_FOR_TRAVEL:
+            print("----TIME FOR travel() : ", time.time() - tick, " ----")
+
     def takeStartedNode(self,node):
         self.__brain.setStartNode(node)
         self.__brain.keepNode(node)
 
     def dropPheromone(self,vNodes, distance):
+        tick = time.time()
         q = 1
         ro = 0.7
         tau = self.__brain.getPhM()
@@ -39,6 +51,9 @@ class Ant:
         for i in range(len(vNodes) - 1):
             tau[vNodes[i]][vNodes[i+1]] = (1-ro)*tau[vNodes[i]][vNodes[i+1]] + dT
             tau[vNodes[i+1]][vNodes[i]] = (1-ro)*tau[vNodes[i+1]][vNodes[i]] + dT
+
+        if  NEED_PRINT_TIME_FOR_DROP_PHEROMONE:
+            print("----TIME FOR dropPheromone(vNodes, distance) : ", time.time() - tick, " ----")
         
     def toStart(self):
         self.__brain.forget()
@@ -72,11 +87,6 @@ class AntBrain:
             beta = 1
             alfa = 1 
 
-            if inNode not in availableNodes:
-                return 0
-
-            adjM = env.getAdjM()
-            tau = env.getPhM()
             l , t = adjM[outNode][inNode] , tau[outNode][inNode]
             n = 1 / l
             s = 0
@@ -95,6 +105,8 @@ class AntBrain:
 
         nextNode = -1
         env = self.__env
+        adjM = env.getAdjM()
+        tau = env.getPhM()
         availableNodes = []
 
         for j in range(env.getNodeCount()):
@@ -104,19 +116,15 @@ class AntBrain:
         if (len(availableNodes) == 0):
             return self.__startNode
 
-        tranP = []
-        segment = [0]
+        p = random.randint(0,100)
+        segmentTick = 0
 
         for j in range(len(availableNodes)):
             inNode = availableNodes[j]
-            tranP.append(P(outNode, inNode, availableNodes))
-            segment.append(segment[j] + tranP[j])
-
-        p = random.randint(0,100)
-
-        for k in range(len(segment)):
-            if p <= segment[k]:
-                nextNode = availableNodes[k-1]
+            transitionProbability = P(outNode, inNode, availableNodes)
+            segmentTick += transitionProbability
+            if p <= segmentTick:
+                nextNode = inNode
                 break
 
         if nextNode == -1:

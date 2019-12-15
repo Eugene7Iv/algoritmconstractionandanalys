@@ -1,6 +1,7 @@
 from ant import Ant
 from random import randint
 from config import *
+import time
 
 class Environment:
     def __init__(self):
@@ -21,47 +22,54 @@ class Environment:
         for i in range(count):
             self.__colony.append(Ant(self))
 
-    def locateAnt(self):
+    def locateAnt(self, ant, node):
+        if node > -1:
+            ant.takeStartedNode(node)
+        else:
+            colonySize = len(self.__colony)
+            if colonySize < self.__size:
+                node = randint(0, self.__size - 1)
+            else:
+                node = ant.getIndx() % self.__size
+            ant.takeStartedNode(node)
+
+    def locateAnts(self, node = -1):
         size = self.__size
         if size == 0:
             print("ERROR : graph is non defined")
             return False
 
-        colonySize = len(self.__colony)
-
-        for i in range(colonySize):
-            if colonySize < self.__size:
-                node = randint(0, self.__size - 1)
-            else:
-                node = i % self.__size
-            self.__colony[i].takeStartedNode(node)
+        for ant in self.__colony:
+            self.locateAnt(ant, node)
 
         return True
 
     def startColonysTravel(self, node = -1):
+        tick = time.time()
         for ant in self.__colony:
-            if node > -1:
-                ant.takeStartedNode(node)
-                ant.toStart()
-            ant.traveling()
-            if needPrintTraveledWay:
+            self.locateAnt(ant, node)
+            ant.toStart()
+            ant.travel()
+
+            if NEED_PRINT_TRAVELED_WAY:
                 self.__printAntInfo(ant)
 
+        if NEED_PRINT_TIME_FOR_COLONYS_TRAVEL:
+            print("----TIME FOR startColonysTravel(node) : ", time.time() - tick, " ----")
 
-    def startExploring(self, time):
-        colonySize = len(self.__colony)
-        for i in range(time):
-            if needPrintPhM:
+
+    def startExploring(self, iterCount, node = -1):
+        tick = time.time()
+        for i in range(iterCount):
+            self.startColonysTravel(node = node)
+
+            if NEED_PRINT_PhM:
                 print("---------")
                 print(self.__phMatrix)
                 print("---------")
-            for ant in self.__colony:
-                ant.traveling()
-                if needPrintExploredWay:
-                    self.__printAntInfo(ant)
-                if colonySize < self.__size:
-                    ant.takeStartedNode(randint(0, self.__size - 1))
-                ant.toStart()
+        
+        if NEED_PRINT_TIME_FOR_EXPLORING:
+            print("----TIME FOR startExploring(time, node) : ", time.time() - tick, " ----")
 
     def showColony(self):
         for i in range(len(self.__colony)):
