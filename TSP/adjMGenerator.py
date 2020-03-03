@@ -1,6 +1,4 @@
 import random
-from datetime import datetime as dt
-
 
 n = int(input("n = "))
 
@@ -16,14 +14,7 @@ for i in range(n):
         elif (j == i):
             adjM[i].append(0)
 
-for i in range(n):
-    for j in range(n):
-        print(adjM[i][j], end = '\t')
-    print('\n')
-
-time = dt.strftime(dt.now(), "%Y_%m_%d_%H_%M_%S")
-
-testFile = open("test" + str(n) + "_" + time + '.txt', 'w')
+testFile = open("test" + str(n) + ".txt", 'w')
 
 for i in range(n):
     for j in range(n):
